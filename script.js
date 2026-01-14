@@ -1,7 +1,7 @@
 // Mobile alert top of script.js
 if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     let alertBox = document.createElement("div");
-    alertBox.innerText = "For the best experience, please view this website on a desktop.";
+    alertBox.innerText = "For the best experience, please view this website on a desktop mode.";
 
     alertBox.style.position = "fixed";
     alertBox.style.top = "20px";
@@ -854,6 +854,7 @@ initParticles();
         });
 
     }
+
 
 
 
