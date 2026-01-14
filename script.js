@@ -507,9 +507,6 @@ function initFilterButtons() {
     emailjs.init("JufNnUp-r3zhFtwod"); // Your EmailJS Public Key
 })();
 
-/* ===== DOM ELEMENTS ===== */
-
-const submitBtn = document.querySelector('.submit-btn');
 
 /* ===== INIT FORM VALIDATION ===== */
 function initFormValidation() {
@@ -858,6 +855,7 @@ initParticles();
         });
 
     }
+
 
 
 
