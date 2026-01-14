@@ -1,3 +1,27 @@
+// Mobile alert top of script.js
+if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
+    let alertBox = document.createElement("div");
+    alertBox.innerText = "For the best experience, please view this website on a desktop.";
+
+    alertBox.style.position = "fixed";
+    alertBox.style.top = "20px";
+    alertBox.style.left = "50%";
+    alertBox.style.transform = "translateX(-50%)";
+    alertBox.style.backgroundColor = "#ffdd57";
+    alertBox.style.color = "#000";
+    alertBox.style.padding = "15px 25px";
+    alertBox.style.borderRadius = "8px";
+    alertBox.style.boxShadow = "0 4px 10px rgba(0,0,0,0.2)";
+    alertBox.style.zIndex = "9999";
+    alertBox.style.fontFamily = "Arial, sans-serif";
+    alertBox.style.fontSize = "16px";
+
+    document.body.appendChild(alertBox);
+
+    setTimeout(() => {
+        alertBox.remove();
+    }, 3000);
+}
 
 
 // DOM Elements
@@ -623,7 +647,7 @@ async function sendEmail(formData) {
         'JufNnUp-r3zhFtwod'       
     );
 
-};
+
     
     
     
@@ -830,6 +854,7 @@ initParticles();
         });
 
     }
+
 
 
 
