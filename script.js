@@ -502,19 +502,26 @@ function initFilterButtons() {
     });
 }
 
-// Initialize Form Validation and Submission
+/* ===== INIT EMAILJS ===== */
+(function() {
+    emailjs.init("JufNnUp-r3zhFtwod"); // Your EmailJS Public Key
+})();
+
+/* ===== DOM ELEMENTS ===== */
+const contactForm = document.getElementById('contactForm');
+const submitBtn = document.querySelector('.submit-btn');
+
+/* ===== INIT FORM VALIDATION ===== */
 function initFormValidation() {
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
-        
-        if (!validateForm()) {
-            return;
-        }
-        
+
+        if (!validateForm()) return;
+
         // Show loading state
         submitBtn.classList.add('loading');
         submitBtn.disabled = true;
-        
+
         // Get form data
         const formData = {
             name: document.getElementById('name').value,
@@ -523,20 +530,22 @@ function initFormValidation() {
             message: document.getElementById('message').value,
             timestamp: new Date().toISOString()
         };
-        
+
         try {
             // Send email using EmailJS
             await sendEmail(formData);
-            
+
             // Show success message
             showFormMessage('success', 'Thank you! Your message has been sent successfully. I will get back to you soon.');
-            
+
             // Reset form
             contactForm.reset();
-            
-            // Trigger confetti effect
-            triggerConfetti();
-            
+
+            // Trigger confetti effect if function exists
+            if (typeof triggerConfetti === "function") {
+                triggerConfetti();
+            }
+
         } catch (error) {
             console.error('Error sending email:', error);
             showFormMessage('error', 'Oops! Something went wrong. Please try again or email me directly at aaditya0775@gmail.com');
@@ -546,90 +555,71 @@ function initFormValidation() {
             submitBtn.disabled = false;
         }
     });
-    
+
     // Real-time validation
     ['name', 'email', 'subject', 'message'].forEach(fieldId => {
         const field = document.getElementById(fieldId);
         const errorElement = document.getElementById(`${fieldId}Error`);
-        
-        field.addEventListener('input', () => {
-            validateField(field, errorElement);
-        });
-        
-        field.addEventListener('blur', () => {
-            validateField(field, errorElement);
-        });
+
+        field.addEventListener('input', () => validateField(field, errorElement));
+        field.addEventListener('blur', () => validateField(field, errorElement));
     });
 }
 
-// Validate Individual Field
+/* ===== VALIDATE INDIVIDUAL FIELD ===== */
 function validateField(field, errorElement) {
     const value = field.value.trim();
     let error = '';
-    
+
     switch (field.id) {
         case 'name':
-            if (!value) {
-                error = 'Name is required';
-            } else if (value.length < 2) {
-                error = 'Name must be at least 2 characters';
-            }
+            if (!value) error = 'Name is required';
+            else if (value.length < 2) error = 'Name must be at least 2 characters';
             break;
-            
+
         case 'email':
-            if (!value) {
-                error = 'Email is required';
-            } else if (!isValidEmail(value)) {
-                error = 'Please enter a valid email address';
-            }
+            if (!value) error = 'Email is required';
+            else if (!isValidEmail(value)) error = 'Please enter a valid email address';
             break;
-            
+
         case 'subject':
-            if (!value) {
-                error = 'Subject is required';
-            } else if (value.length < 5) {
-                error = 'Subject must be at least 5 characters';
-            }
+            if (!value) error = 'Subject is required';
+            else if (value.length < 5) error = 'Subject must be at least 5 characters';
             break;
-            
+
         case 'message':
-            if (!value) {
-                error = 'Message is required';
-            } else if (value.length < 10) {
-                error = 'Message must be at least 10 characters';
-            }
+            if (!value) error = 'Message is required';
+            else if (value.length < 10) error = 'Message must be at least 10 characters';
             break;
     }
-    
+
     errorElement.textContent = error;
     field.style.borderColor = error ? 'var(--error)' : 'transparent';
-    
+
     return !error;
 }
 
-// Validate Entire Form
+/* ===== VALIDATE ENTIRE FORM ===== */
 function validateForm() {
     let isValid = true;
-    
+
     ['name', 'email', 'subject', 'message'].forEach(fieldId => {
         const field = document.getElementById(fieldId);
         const errorElement = document.getElementById(`${fieldId}Error`);
-        
-        if (!validateField(field, errorElement)) {
-            isValid = false;
-        }
+
+        if (!validateField(field, errorElement)) isValid = false;
     });
-    
+
     return isValid;
 }
 
-// Email Validation Regex
+/* ===== EMAIL VALIDATION REGEX ===== */
 function isValidEmail(email) {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
 }
 
-// Send Email using EmailJS
+/* ===== SEND EMAIL USING EMAILJS ===== */
 async function sendEmail(formData) {
     const templateParams = {
         to_name: 'Aditya Kumar',
@@ -639,14 +629,28 @@ async function sendEmail(formData) {
         message: formData.message,
         reply_to: formData.email
     };
-    
-    await emailjs.send(
-        'service_smn00le',  
-        'template_4xjvh18',    
-        templateParams,
-        'JufNnUp-r3zhFtwod'       
-    );
 
+    await emailjs.send(
+        'service_smn00le',   // Your EmailJS Service ID
+        'template_4xjvh18',  // Your EmailJS Template ID
+        templateParams
+    );
+}
+
+/* ===== SHOW FORM MESSAGE ===== */
+function showFormMessage(type, message) {
+    const msgEl = document.getElementById('formMessage');
+    msgEl.textContent = message;
+    msgEl.className = type === 'success' ? 'form-success' : 'form-error';
+    msgEl.style.display = 'block';
+
+    setTimeout(() => {
+        msgEl.style.display = 'none';
+    }, 5000);
+}
+
+/* ===== INIT ===== */
+document.addEventListener('DOMContentLoaded', initFormValidation);
 
     
     
@@ -854,6 +858,7 @@ initParticles();
         });
 
     }
+
 
 
 
