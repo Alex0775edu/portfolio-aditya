@@ -807,8 +807,6 @@ function initParticles() {
     console.log('Particles initialized');
 }
 
-// Call initialization functions
-initParticles();
 
 
 
