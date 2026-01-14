@@ -808,6 +808,8 @@ function initParticles() {
 }
 
 
+// Call initialization functions
+initParticles();
 
 
 // ========== WhatsApp Button Analytics ==========
@@ -822,3 +824,4 @@ function initParticles() {
             }
         });
 	}
+}
