@@ -508,7 +508,7 @@ function initFilterButtons() {
 })();
 
 /* ===== DOM ELEMENTS ===== */
-const contactForm = document.getElementById('contactForm');
+
 const submitBtn = document.querySelector('.submit-btn');
 
 /* ===== INIT FORM VALIDATION ===== */
@@ -858,6 +858,7 @@ initParticles();
         });
 
     }
+
 
 
 
