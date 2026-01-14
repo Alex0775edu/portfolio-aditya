@@ -616,7 +616,7 @@ async function sendEmail(formData) {
     
     await emailjs.send(
         'service_smn00le',  
-        'service_smn00le',    
+        'template_4xjvh18',    
         templateParams,
         'JufNnUp-r3zhFtwod'       
     );
@@ -826,4 +826,5 @@ initParticles();
                 });
             }
         });
+
     }
