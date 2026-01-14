@@ -651,9 +651,7 @@ document.addEventListener('DOMContentLoaded', initFormValidation);
 
     
     
-    
-    // Simulate API call delay
-    await new Promise(resolve => setTimeout(resolve, 1500));
+
     
     // Log the message (in production, this would be sent to your email)
     console.log('Message received:', formData);
@@ -855,6 +853,7 @@ initParticles();
         });
 
     }
+
 
 
 
