@@ -23,7 +23,6 @@ if (/Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent)) {
     }, 3000);
 }
 
-
 // DOM Elements
 const body = document.body;
 const themeToggle = document.getElementById('themeToggle');
@@ -122,8 +121,6 @@ const projects = [
        
         icon: "fas fa-briefcase"
     },
-  
-  
 ];
 
 const education = [
@@ -154,8 +151,7 @@ const testimonials = [
        role: "Project Guide",
      content: "Aditya's attention to detail and problem-solving skills are exceptional. He delivered our web project ahead of schedule with excellent quality.",
         initials: "DS"
-},
-   
+    },
 ];
 
 // Initialize Portfolio
@@ -334,9 +330,9 @@ function populateProjects() {
                     <a href="${project.liveLink}" class="project-link" target="_blank">
                         <i class="fas fa-external-link-alt"></i> Live Demo
                     </a>
-                    <a href="${project.githubLink}" class="project-link" target="_blank">
+                    ${project.githubLink ? `<a href="${project.githubLink}" class="project-link" target="_blank">
                         <i class="fab fa-github"></i> GitHub
-                    </a>
+                    </a>` : ''}
                 </div>
             </div>
         `;
@@ -472,7 +468,6 @@ function animateCounter(counter) {
 // Initialize Filter Buttons for Projects
 function initFilterButtons() {
     const filterButtons = document.querySelectorAll('.filter-btn');
-    const projectCards = document.querySelectorAll('.project-card');
     
     filterButtons.forEach(button => {
         button.addEventListener('click', () => {
@@ -481,6 +476,7 @@ function initFilterButtons() {
             button.classList.add('active');
             
             const filter = button.getAttribute('data-filter');
+            const projectCards = document.querySelectorAll('.project-card');
             
             // Filter projects
             projectCards.forEach(card => {
@@ -502,9 +498,9 @@ function initFilterButtons() {
     });
 }
 
-			
-				// Initialize Form Validation and Submission
+// Initialize Form Validation and Submission
 function initFormValidation() {
+    if (!contactForm) return;
     contactForm.addEventListener('submit', async function(e) {
         e.preventDefault();
         
@@ -641,12 +637,22 @@ async function sendEmail(formData) {
         reply_to: formData.email
     };
     
-    await emailjs.send(
+    return emailjs.send(
         'service_smn00le',  
         'template_4xjvh18',    
         templateParams,
         'JufNnUp-r3zhFtwod'       
     );
+}
+
+// Show Form Message
+function showFormMessage(type, message) {
+    if (formMessage) {
+        formMessage.textContent = message;
+        formMessage.className = '';
+        formMessage.classList.add(type === 'success' ? 'success-message' : 'error-message');
+    }
+}
 
 // Initialize Newsletter Form
 function initNewsletter() {
@@ -669,12 +675,14 @@ function initNewsletter() {
 
 // Trigger Confetti Effect
 function triggerConfetti() {
-    confetti({
-        particleCount: 100,
-        spread: 70,
-        origin: { y: 0.6 },
-        colors: ['#6C63FF', '#FF6584', '#36D1DC', '#ffffff']
-    });
+    if (typeof confetti === 'function') {
+        confetti({
+            particleCount: 100,
+            spread: 70,
+            origin: { y: 0.6 },
+            colors: ['#6C63FF', '#FF6584', '#36D1DC', '#ffffff']
+        });
+    }
 }
 
 // Parallax Effect on Scroll
@@ -807,21 +815,19 @@ function initParticles() {
     console.log('Particles initialized');
 }
 
-
 // Call initialization functions
 initParticles();
 
 
 // ========== WhatsApp Button Analytics ==========
-    const whatsappButton = document.querySelector('.whatsapp-float');
-    if (whatsappButton) {
-        whatsappButton.addEventListener('click', function() {
-            if (typeof gtag !== 'undefined') {
-                gtag('event', 'whatsapp_click', {
-                    'event_category': 'contact',
-                    'event_label': 'whatsapp_chat'
-                });
-            }
-        });
-	}
+const whatsappButton = document.querySelector('.whatsapp-float');
+if (whatsappButton) {
+    whatsappButton.addEventListener('click', function() {
+        if (typeof gtag !== 'undefined') {
+            gtag('event', 'whatsapp_click', {
+                'event_category': 'contact',
+                'event_label': 'whatsapp_chat'
+            });
+        }
+    });
 }
